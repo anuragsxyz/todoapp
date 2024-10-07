@@ -6,7 +6,7 @@ class AppbarCheck extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-        title: Text(
+        title: const Text(
           "data",
           style: TextStyle(
             color: Colors.black12,

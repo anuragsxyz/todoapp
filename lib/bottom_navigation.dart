@@ -78,56 +78,58 @@ class _BottomNavigationCheck extends State<BottomNavigationCheck> {
   }
 
   @override
+  // bottom_navigation.dart
+  @override
   Widget build(BuildContext context) {
-    return (Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.amber,
-          title: const Text(
-            "To Do",
-          ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.amber,
-          shape: const CircleBorder(),
-          onPressed: createNewTask,
-          child: const Icon(Icons.add),
-        ),
-        body: Container(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Hey, ${Userdummydata.userName}!  ',
-                style: AppStyle.PrimaryText,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.amber,
+        title: const Text("To Do"),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.amber,
+        shape: const CircleBorder(),
+        onPressed: createNewTask,
+        child: const Icon(Icons.add),
+      ),
+      body: Container(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Hey, ${Userdummydata.userName}!  ',
+              style: AppStyle.PrimaryText,
+            ),
+            const Text(
+              Userdummydata.greetingMessage,
+              style: AppStyle.secondaryText,
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: db.todolist.length,
+                itemBuilder: (context, index) {
+                  return TodoItem(
+                    taskName: db.todolist[index][0], // Task name
+                    taskCompleted: db.todolist[index]
+                        [1], // Task completed status
+                    deleteFunction: (value) => deleteTask(index),
+                    onChanged: (value) => checkboxChanged(value, index),
+                  );
+                },
               ),
-              const Text(
-                Userdummydata.greetingMessage,
-                style: AppStyle.secondaryText,
-              ),
-              // SizedBox(
-              //   height: 21,
-              // ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: db.todolist.length,
-                  itemBuilder: (context, index) {
-                    return TodoItem(
-                        taskName: db.todolist[index][0],
-                        taskCompleted: db.todolist[index][0],
-                        deleteFunction: (value) => deleteTask(index),
-                        onChanged: (value) => checkboxChanged(value, index));
-                  },
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
-        bottomNavigationBar: BottomNavigationBar(items: const [
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.manage_accounts_rounded), label: "Profile")
-        ])));
+              icon: Icon(Icons.manage_accounts_rounded), label: "Profile"),
+        ],
+      ),
+    );
   }
 }
